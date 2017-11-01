@@ -2,7 +2,6 @@ package gorefs
 
 import (
 	"html/template"
-	"log"
 	"net/http"
 	"regexp"
 )
@@ -37,7 +36,6 @@ func wrongPath(w http.ResponseWriter, path string) {
 func handler(w http.ResponseWriter, r *http.Request) {
 
 	parsedPath := pathRE.FindStringSubmatch(r.URL.Path)
-	log.Printf("%v\n", parsedPath)
 
 	if len(parsedPath) < 1 {
 		wrongPath(w, r.URL.Path)
