@@ -17,10 +17,10 @@ func init() {
 	pathRE = regexp.MustCompile(`^\/([[:alnum:]]*)`)
 	allowed = []string{
 		"slops",
-		"fstests",
+		"fst",
 	}
 
-	tpl, err = template.New("goref").Parse(`<html><head><meta name="go-import" content="github.com/didenko/{{.}}"></head></html>`)
+	tpl, err = template.New("goref").Parse(`<html><head><meta name="go-import" content="go.didenko.com/{{.}} git https://github.com/didenko/{{.}}"><meta http-equiv="refresh" content="0; url=https://github.com/didenko/{{.}}"></head></html>`)
 	if err != nil {
 		panic(err)
 	}
