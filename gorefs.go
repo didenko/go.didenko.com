@@ -20,7 +20,12 @@ func init() {
 		"fst",
 	}
 
-	tpl, err = template.New("goref").Parse(`<html><head><meta name="go-import" content="go.didenko.com/{{.}} git https://github.com/didenko/{{.}}"><meta http-equiv="refresh" content="0; url=https://github.com/didenko/{{.}}"></head></html>`)
+	tpl, err = template.New("goref").Parse(`
+<html><head>
+	<meta name="go-import" content="go.didenko.com/{{.}} git https://github.com/didenko/{{.}}">
+	<meta name="go-source" content="go.didenko.com/{{.}} git https://github.com/didenko/{{.}} https://github.com/didenko/{{.}}/tree/master{/dir} https://github.com/didenko/{{.}}/blob/master{/dir}/{file}#L{line}">
+	<meta http-equiv="refresh" content="0; url=https://github.com/didenko/{{.}}">
+</head></html>`)
 	if err != nil {
 		panic(err)
 	}
