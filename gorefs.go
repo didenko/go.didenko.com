@@ -16,8 +16,9 @@ var (
 func init() {
 	pathRE = regexp.MustCompile(`^\/([[:alnum:]]*)`)
 	allowed = []string{
-		"slops",
 		"fst",
+		"pald",
+		"slops",
 	}
 
 	tpl, err = template.New("goref").Parse(`
