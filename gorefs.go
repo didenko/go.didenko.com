@@ -19,6 +19,7 @@ func init() {
 		"fst":   "https://github.com/didenko/fst",
 		"pald":  "https://github.com/didenko/pald",
 		"slops": "https://github.com/didenko/slops",
+		"gate":  "https://gitlab.com/vldid/gate",
 	}
 
 	tpl, err = template.New("goref").Parse(`
@@ -56,5 +57,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-		wrongPath(w, r.URL.Path)
-	}
+	wrongPath(w, r.URL.Path)
+}
