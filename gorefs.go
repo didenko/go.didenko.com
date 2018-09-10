@@ -49,13 +49,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	projectName := parsedPath[1]
+	project := parsedPath[1]
 
-	for project, dest := range allowed {
-		if projectName == project {
-			tpl.Execute(w, struct{ P, D string }{project, dest})
-			return
-		}
+	if dest, ok := allowed[project]; ok {
+		tpl.Execute(w, struct{ P, D string }{project, dest})
+	} else {
+		wrongPath(w, r.URL.Path)
 	}
-	wrongPath(w, r.URL.Path)
 }
