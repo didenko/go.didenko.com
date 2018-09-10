@@ -10,22 +10,22 @@ var (
 	err     error
 	tpl     *template.Template
 	pathRE  *regexp.Regexp
-	allowed []string
+	allowed map[string]string
 )
 
 func init() {
 	pathRE = regexp.MustCompile(`^\/([[:alnum:]]*)`)
-	allowed = []string{
-		"fst",
-		"pald",
-		"slops",
+	allowed = map[string]string{
+		"fst":   "https://github.com/didenko/fst",
+		"pald":  "https://github.com/didenko/pald",
+		"slops": "https://github.com/didenko/slops",
 	}
 
 	tpl, err = template.New("goref").Parse(`
 <html><head>
-	<meta name="go-import" content="go.didenko.com/{{.}} git https://github.com/didenko/{{.}}">
-	<meta name="go-source" content="go.didenko.com/{{.}} git https://github.com/didenko/{{.}} https://github.com/didenko/{{.}}/tree/master{/dir} https://github.com/didenko/{{.}}/blob/master{/dir}/{file}#L{line}">
-	<meta http-equiv="refresh" content="0; url=https://github.com/didenko/{{.}}">
+	<meta name="go-import" content="go.didenko.com/{{.P}} git {{.D}}">
+	<meta name="go-source" content="go.didenko.com/{{.P}} git {{.D}} {{.D}}/tree/master{/dir} {{.D}}/blob/master{/dir}/{file}#L{line}">
+	<meta http-equiv="refresh" content="0; url=http://www.didenko.com">
 </head></html>`)
 	if err != nil {
 		panic(err)
@@ -50,17 +50,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	projectName := parsedPath[1]
 
-	permitted := false
-	for _, a := range allowed {
-		if projectName == a {
-			permitted = true
-			break
+	for project, dest := range allowed {
+		if projectName == project {
+			tpl.Execute(w, struct{ P, D string }{project, dest})
+			return
 		}
 	}
-
-	if permitted {
-		tpl.Execute(w, projectName)
-	} else {
 		wrongPath(w, r.URL.Path)
 	}
-}
